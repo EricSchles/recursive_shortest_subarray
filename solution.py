@@ -6,15 +6,25 @@ random_arr = [random.randint(0,20) for _ in range(40)]
 # and an array of random integers
 # find the shortest continous subarray that contains all the values from the set
 def find_subarray(random_arr, set_of_ints):
+    if len(random_arr) == 0:
+        return None
     if len(random_arr) == len(set_of_ints):
         if set(random_arr) == set_of_ints:
             return random_arr
         else:
             return None
     elif (random_arr[0] in set_of_ints) and (random_arr[-1] in set_of_ints):
-        arr = set(random_arr)
-        if set_of_ints.issubset(arr):
-            return random_arr
+        if (random_arr[0] in random_arr[1:]) and (random_arr[-1] in random_arr[:-1]):
+            return find_subarray(random_arr[1:-1], set_of_ints)
+        elif random_arr[0] in random_arr[1:]:
+            return find_subarray(random_arr[1:], set_of_ints)
+        elif random_arr[-1] in random_arr[:-1]:
+            return find_subarray(random_arr[:-1], set_of_ints)
+        else:
+            arr = set(random_arr)
+            if set_of_ints.issubset(arr):
+                return random_arr
+        
     else:
         if random_arr[0] in set_of_ints:
             return find_subarray(random_arr[:-1], set_of_ints)
